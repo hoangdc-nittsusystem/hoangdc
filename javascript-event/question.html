@@ -1,0 +1,113 @@
+
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script>
+            $(document).ready( function () {
+                /* 1. Các cách event binding trong jquery 
+                - Hàm bind : */
+                $('button').bind('click', function (event) { console.log('jquery bind function') });
+            
+                /*  - Hàm on :  */
+                $('button').on('click', function (event) { console.log('jquery on function') });
+            
+                /*  - Hàm sự kiện cụ thể như click, mousemove,...:  */
+                $('button').click( function (event) { console.log('jquery click function') });
+            
+                /*  - Hàm one thực thi một lần rồi tự gỡ:  */
+                $('button').one('click', function (event) { console.log('jquery one function') });
+            })
+
+            // -----------------------------------------------------------------------------------------------------------------
+            /* 2. Các cách event binding trong javascript : chỉ có thể dùng addEventListener */
+            document.addEventListener("DOMContentLoaded", function(event) {
+                document.getElementsByTagName('button')[0].addEventListener('click', function (event) {
+                    console.log('javascript addEventListener function')
+                })
+            });
+
+            // -----------------------------------------------------------------------------------------------------------------
+            /* 3. Các cách truy vấn vào các phần tử HTML
+                - jquery: $( CSS SELECTOR );
+                - javascript: */
+                    document.getElementById('test');
+                    document.getElementsByTagName('test');
+                    document.getElementsByClassName('test');
+                    document.querySelector('test');
+                    document.querySelectorAll('test');
+                    // còn một số hàm nữa ít được sử dụng hơn
+            
+
+            // -----------------------------------------------------------------------------------------------------------------
+            /* 4. Thời điểm thích hợp để event binding: Khi body content đã được load xong 
+                - jquery: $(document).ready( function () {});
+                - javascript: document.addEventListener("DOMContentLoaded", function(event) {});
+                + Với các element được tạo ra sau khi body content xong (tạo bởi hàm append(),...) thì có thể dùng jquery on function để xử lí: 
+                    Thêm tham số thứ hai là element cha chứa phần tử cần gắn sự kiện    */
+                    $(document).on('click', 'button', function (event) { console.log('jquery on bound function') });
+            
+
+            // -----------------------------------------------------------------------------------------------------------------
+            /* 5. Các event:
+                - Focus events: focus, blur
+                - CSS Animation events: animationstart, animationend, animationiteration
+                - Form events: submit, reset
+                - Clipboard events: copy, cut, paste
+                - Keyboard events: keydown, keypress, keyup
+                - Mouse events: click, movehover, mouseleave, mouseenter, mousemove, mouseup, mousedown
+                - Drag & Drop events: drag, drop
+                - Uncategorized events: message
+                - Progress events: loadstart, progress, loadend
+                - ...
+            */
+
+            // -----------------------------------------------------------------------------------------------------------------
+            /* 6. Tham số truyền vào event callback: DOM event object dựa trên EventObject
+                - Chứa các thông số quan trọng về sự kiện được diễn ra: như tọa độ click chuột, phím vừa được nhấn
+                - Có các hàm xử lí sự kiện: preventDefault(), stopImmediatePropagation(), stopPropagation(), ...
+            */
+
+            // -----------------------------------------------------------------------------------------------------------------
+            /* 7. Chặn các hàm sự kiện khác được gắn vào cùng một element: event.stopImmediatePropagation()  */
+            document.addEventListener("DOMContentLoaded", function(event) {
+                document.getElementsByTagName('button')[0].addEventListener('click', function (event) {
+                    event.stopImmediatePropagation();
+                    console.log('javascript stopImmediatePropagation function')
+                })
+            });
+           
+
+            // -----------------------------------------------------------------------------------------------------------------
+            /* 8. Chặn sự kiện lan truyền tới các element cha của element xảy ra sự kiện: event.stopPropagation()  */
+            document.addEventListener("DOMContentLoaded", function(event) {
+                document.getElementsByTagName('div')[0].addEventListener('click', function (event) {
+                    event.stopPropagation();
+                    console.log('div callback function')
+                })
+                document.getElementsByTagName('button')[0].addEventListener('click', function (event) {
+                    // event.stopPropagation();
+                    console.log('javascript stopPropagation function')
+                })
+            });
+
+            // -----------------------------------------------------------------------------------------------------------------
+            /* 9. return trong hàm callback
+                - Các lệnh trước return hoạt động bình thường
+                - Sự kiện vẫn diễn ra bình thường: chuyển trang, submit form 
+                - Muốn dừng sự kiện phải dùng event.preventDefault() */
+            document.addEventListener("DOMContentLoaded", function(event) {
+                document.getElementsByTagName('a')[0].addEventListener('click', function (event) {
+                    console.log('click go to Google')
+                    event.preventDefault()
+                    return;
+                })
+            });
+        </script>
+    </head>
+    <body>
+        <div>
+            <button id="button">Click me</button>
+        </div>
+        <a href="https://google.com.vn">Google</a>
+    </body>
+</html>
