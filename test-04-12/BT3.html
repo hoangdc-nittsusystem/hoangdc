@@ -3,21 +3,36 @@
     <head>
         <script>
             let n = 100, result = [];;
-            for(let i = 0; i <= n; i++) {
+            for (let i = 0; i <= n; i++) {
                 let temp = fibonaci(i);
-                if ( 0 <= temp && temp <= n) {
+                if (0 <= temp && temp <= n) {
                     result.push(temp);
                 }
                 if (temp > n) break;
             }
-            console.log(result)
-
-
+          
             function fibonaci(n) {
                 if (n <= 0) return 0;
                 else if (n == 1) return 1;
                 else return fibonaci(n - 2) + fibonaci(n - 1);
             }
+
+            // while loop
+            let i = 0;
+            result = [];
+
+            while (i <= n) {
+                let temp = fibonaci(i);
+                if (0 <= temp && temp <= n) {
+                    result.push(temp);
+                }
+                if (temp > n) break;
+
+                i++;
+            }
+
+            console.log(result);
+            
         </script>
     </head>
     <body>
