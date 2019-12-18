@@ -1,0 +1,77 @@
+
+<html>
+    <head>
+        <script src="https://momentjs.com/downloads/moment.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/vi.js"></script>
+        
+        <script>
+           document.addEventListener("DOMContentLoaded", function(event) {
+                /* 
+                Moment.js là thư viện liên quan đến date time trong javascript, hoạt động cả trên browser và nodejs. Các chức năng chính của momentjs
+
+                - Parse: Khởi tạo đối tượng moment (một wrapper của đối tượng Date trong JS) */
+                console.log(moment());
+                console.log(moment("13-04-1996"));
+                console.log(moment("2013-02-08 09:30:26"));
+
+                console.log(moment("13-04-1996", 'DD-MM-YYYY'));
+                console.log(moment("2013-02-08 09:30:26", 'YYYY-MM-DD HH:MM:ss'));
+                console.log(moment("13-04-1996", 'DD-MM-YYYY', 'vi'));
+
+                moment({ years:2010, months:3, date:5, hours:15, minutes:10, seconds:3, milliseconds:123});
+
+                moment(1576314475000);
+
+                moment(new Date(2019, 09, 16))
+
+                moment([2019, 12, 14, 16, 15])
+
+                /* Kiểm tra đối tượng hợp lệ */ moment().isValid();
+                /*
+                - Get, Set: Lấy hoặt set các thuộc tính giây, giờ, phút, ngày,...              */
+                moment('2013-02-08 09:30:26').millisecond();
+                moment().seconds();
+                moment().minute();
+                moment().hour(1);
+                moment().date();   // date of month
+                moment().day();    // day of week
+                moment().weekday();    
+
+                moment().get('date')
+                moment().set('day', 14)
+
+                /* Manipulate: Thao tác thay đổi đối tượng moment như thêm/bớt ngày */
+                moment().add(7, 'days');
+                moment().add(7, 'days').add(1, 'months'); 
+                moment().subtract(2, 'days');
+                moment().startOf('week');
+
+                /* Display: hiển thị đối tượng moment */
+                moment().format('X')
+                moment([2017, 11, 16]).fromNow();
+                moment([2017, 11, 16]).from(moment([2019, 7, 16]));
+                moment().diff(moment([2019, 05]), moment([2019, 11]))       // difference in miliseconds
+                console.log(moment().diff(moment([2019, 05]), moment([2019, 11])))
+
+                /* Query: so sánh các đối tượng moment */
+                moment('2010-10-20').isBefore('2010-10-21');    // true
+                moment('2010-10-20').isSame('2010-10-20');      // true
+                moment('2010-10-20').isAfter('2010-10-21');     // false
+                moment('2010-10-20').isBetween('2010-10-19', '2010-10-25'); // true
+
+                /* i18n: hỗ trợ giờ theo khu vực */
+
+                moment.locale('en');
+                console.log(moment(1316116057189).fromNow());   // 8 years ago
+                moment.locale('vi');
+                console.log(moment(1316116057189).fromNow());   // 8 năm trước
+
+                /* .............. */
+            });
+
+        </script>
+    </head>
+    <body>
+        
+    </body>
+</html>

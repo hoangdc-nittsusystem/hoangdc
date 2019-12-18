@@ -1,0 +1,70 @@
+
+<html>
+    <head>
+        <style>
+            .red {
+                color: red;
+            }
+            .blue {
+                color: blue;
+            }
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script>
+            $(document).ready( function () {
+            /* Các function chính trong jQuery
+                - DOM Selector : Giúp ta truy xuất đến các phần tử html, từ đó có thể thực hiện các hành động khác như gắn sự kiện, thêm css, class,...
+                    Tham số truyền vào là một css selector
+                */
+                $('button');
+                $('body div button');
+                $('#button');
+                $('.red');
+
+                /*
+                - jquery effect: Tạo hiệu ứng cho phần tử
+                */
+                $('body div').hide();
+                $('body div').show();
+                $('body div').fadeOut();
+                $('body div').fadeIn();
+
+                /*
+                - jquery html: Thay nội dung, diện mạo của phần tử
+                */
+                $('#button').html("Click nhé!");    // thay đổi nội dung html
+                $('p').addClass('blue')             // thêm class
+                $('p').css('text-align', 'center')  // thêm style
+                $('section').remove();              // xóa khỏi document
+
+                $('#button').width(100);            // set width
+                $('#button').height(100);           // set height
+
+                /*
+                - jQuery Traversing: Truy xuất phần tử theo sơ đồ cây (cha, tổ tiên, con cháu, hàng xóm)
+                */
+                $('#block-button').siblings("a").html("Google hàng xóm");           // truy xuất phần tử đứng cạnh và là thẻ <a>
+                $('#block-button').children('button').css('color', 'yellow');       // truy xuất phần tử con
+                $('#button').parent().css('border', '3px black solid ');            // truy xuất phần tử cha
+
+                /*
+                - jQuery - AJAX: tạo các request đến các web api
+                */
+
+                $.get('https://hachium.com', function (data) {
+                    console.log(data)
+                })
+
+            })
+
+        </script>
+    </head>
+    <body>
+        <div id="block-button">
+            <button id="button">Click me</button>
+        </div>
+        <a href="https://google.com.vn">Google</a>
+        <p class="red">Red text</p>
+        <section style="height: 300px; width: 300px; background-color: black;"></section>
+    </body>
+</html>
