@@ -1,0 +1,153 @@
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            /* Là các đối tượng hỗ trợ cho việc xử lí bất đồng bộ trong javascript. Promise cũng được dùng để tránh hiện tượng "callback hell" 
+            Tại mỗi thời điểm Promise sẽ có thể ở một trong các trạng thái sau:
+            - pending: Trạng thái chờ xử lý kết thúc. Trạng thái này chính là trạng thái ban đầu của Promise, nó thể hiện rằng thao tác xử lý của ta chưa kết thúc.
+            - fulfilled: Trạng thái xử lý thành công. Trạng thái này thể hiện rằng thao tác xử lý của ta đã kết thúc và thành công.
+                Lúc này Promise.then() được thực thi
+            - rejected: Trạng thái xử lý thất bại. Trạng thái này thể hiện thao tác xử lý đã kết thúc và thất bại.
+                Lúc này Promise.catch() được thực thi
+            Promise.finally() luôn được thực thi khi promise rejected hoặc fullfiled
+
+            /*-----------------------------------------------------------------------------------------*/
+            // promise
+
+            let promise = new Promise((resolve, reject) => {
+                // trong này diễn ra các xử lí bất đồng bộ như gọi request, setTimeout
+                setTimeout(function () {
+                    resolve('done promise');    // mỗi khi xử lí xong ta resolve promise này hoặc reject nó để thực hiện các lệnh còn lại của chương trình
+
+                }, 2000)
+                console.log('done function')
+                // reject('fail');
+            })
+
+            promise.then(function (data) {
+                // resolve
+                console.log(data);
+            }).then(function (data) {
+                // resolve
+                console.log(data);
+            }).catch(err => {
+                // reject
+                console.log(err)
+            }).finally(function (data) {
+                console.log('finally', data)
+            })
+
+            //  ------------------------------------------------------------------------------------------------------------------
+            // promise all
+            let promises = [];
+            for (let i = 0; i < 10; i++) {
+                promises.push(new Promise((resolve, reject) => {
+                    setTimeout(function () {
+                        if (i == 6 || i == 8) reject(i)
+                        console.log(i)
+                        resolve('done promise ' + i);
+                    }, i * 200)
+                    console.log('done function ' + i)
+                    // reject('fail');
+                }))
+            }
+
+            Promise.all(promises).then(data => {
+                // data là mảng các kết quả trả về từ hàm resolve của mỗi promise, mảng được sắp xếp đúng như thứ tự các promise được nạp vào, không quan trọng
+                // thời gian resolve của các promise 
+                console.log(data);
+            }).catch(err => {
+                // nếu bất kì một promise reject thì catch kết quả reject từ promise reject đầu tiên
+                console.log(err)
+            })
+
+            //  ------------------------------------------------------------------------------------------------------------------
+            /* Deferred */
+            let deferred = $.Deferred();
+            $.ajax({
+                url: 'http://localhost:3000',
+                method: 'post',
+                success: function (data) {
+                    // console.log(data)
+                    deferred.resolve(data);
+                },
+                error: function (data) {
+                    // console.log(data)
+                    deferred.reject(data);
+                }
+            })
+            $.when(deferred.promise()).then(                // deferred.promise() return 1 Promise
+                function (data) { console.log(data); },     // fullfil
+                function (data) { console.log(data); },     // rejected
+            )
+            // hoặc dùng hàm cụ thể thay vì $.when
+            deferred.done(data => {                        // fullfil
+                console.log(data);
+            })
+            deferred.fail(data => {                        // rejected
+                console.log(data)
+            })
+
+            //  ------------------------------------------------------------------------------------------------------------------
+            /* async await: cải tiến hơn Promise, khắc phục triệt để hiện tượng callback hell. Tuy nhiên cốt lõi vẫn dùng Promise  */
+            async function run() {
+                await new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        resolve();
+                    }, Math.random() * 100);
+                });
+                await new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        resolve();
+                    }, Math.random() * 100);
+                });
+                await new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        resolve();
+                    }, Math.random() * 100);
+                });
+                await new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        resolve();
+                    }, Math.random() * 100);
+                });
+                // ...
+            }
+            run();
+
+            // Async function without a try/catch block.
+            async function doSomethingAsync(){
+                // This async call may fail.
+                let result = await new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        resolve('123');
+                    }, Math.random() * 100);
+                });
+                return result;  
+                // tương đương
+                new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        resolve('123');
+                    }, Math.random() * 100);
+                }).then( () => {
+                    return '123';   //result
+                }).then( data => console.log(data))  
+            }
+
+            // We catch the error upon calling the function.
+            doSomethingAsync()
+                .then( data => console.log(data))
+                .catch(err => console.log(err));
+        })
+
+    </script>
+</head>
+
+<body>
+    <div id="result"></div>
+</body>
+
+</html>

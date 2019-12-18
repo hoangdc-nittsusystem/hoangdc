@@ -1,0 +1,121 @@
+<html>
+
+<head>
+    <script>
+        document.addEventListener("DOMContentLoaded", function (event) {
+            /* Callback là các function được truyền vào một function khác dưới dạng một tham số. Các callback function được thực thi vào một thời điểm nào đó trong function chứa nó */
+            document.getElementById('result').addEventListener('click', function (event) {
+                // đây là 1 callback function
+            })
+
+            /*-----------------------------------------------------------------------------------------*/
+            // callback hell: ví dụ khi muốn thực hiện một chuỗi hành động liên tiếp, các callback lồng nhau liên tiếp
+            function thucGiac(viecKhac) {
+                console.log("thuc giac")
+                viecKhac();
+            }
+            function anSang(viecKhac) {
+                console.log("an sang")
+                viecKhac();
+            }
+            function diLam(viecKhac) {
+                console.log("di lam")
+                viecKhac();
+            }
+            function anTrua(viecKhac) {
+                console.log("an trua")
+                viecKhac();
+            }
+            function nguTrua(viecKhac) {
+                console.log("ngu trua")
+                viecKhac();
+            }
+            function lamBuoiChieu(viecKhac) {
+                console.log("lam buoi chieu")
+                viecKhac();
+            }
+            function tanViec() {
+                console.log('Het ngay')
+            }
+
+
+            function daily() {
+                thucGiac(function () {
+                    anSang(function () {
+                        diLam(function () {
+                            anTrua(function () {
+                                nguTrua(function () {
+                                    lamBuoiChieu(function () {
+                                        tanViec();
+                                    })
+                                })
+                            })
+                        })
+                    })
+                })
+            }
+            daily();
+
+            // cách khắc phục: dùng Promise hoặc async-await
+            // ----------------------------------------------------------------------------------------------------------
+            // Promise: Tuy ngữ nghĩa rõ ràng hơn nhưng có vẻ rườm rà hơn.
+            new Promise ((resolve, reject) => {
+                    thucGiac(resolve);
+                }).then (() => {
+                    new Promise ((resolve, reject) => {
+                        anSang(resolve);
+                    }).then (() => {
+                        new Promise ((resolve, reject) => {
+                            diLam(resolve);
+                        }).then (() => {
+                            //...
+                        })
+                    })
+                })
+
+            // nếu các hành động này xảy ra song song được mà ta cần đợi tất cả các hành động này kết thúc thì sử dụng Promise.all
+            Promise.all([
+                new Promise ((resolve, reject) => {
+                    thucGiac(resolve);
+                }),
+                new Promise ((resolve, reject) => {
+                    anSang(resolve);
+                }),
+                new Promise ((resolve, reject) => {
+                    diLam(resolve);
+                }),
+                new Promise ((resolve, reject) => {
+                    anTrua(resolve);
+                })
+            ]).then( result => {
+
+            })
+
+            // ----------------------------------------------------------------------------------------------------------
+            // async-await: Khắc phục triệt để callback hell
+            async function run () {
+                await new Promise ((resolve, reject) => {
+                    thucGiac(resolve);
+                });
+                await new Promise ((resolve, reject) => {
+                    anSang(resolve);
+                });
+                await new Promise ((resolve, reject) => {
+                    diLam(resolve);
+                });
+                await new Promise ((resolve, reject) => {
+                    anTrua(resolve);
+                });
+                // ...
+            }
+
+            run();
+        })
+    </script>
+</head>
+
+<body>
+    <div id="result"></div>
+</body>
+
+</html>
