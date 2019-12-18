@@ -1,0 +1,38 @@
+<html>
+
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                /* Chaining function là kĩ thuật viết code ngắn gọn trong việc gọi các hàm liên tiếp trên cùng một đối tượng */
+                $("#result").width(500).height(300).css('background-color', 'black').fadeOut().fadeIn();
+
+                /* Điểm quan trọng trong kĩ thuật này là phải return chính đối tượng đó trong các khai báo hàm */
+
+                let Person = function () {
+                    console.log(this)
+                    this.setName = function (name) {
+                        this.name = name;
+                        console.log(this)
+                        return this;
+                    }
+                    this.setAge = function (age) {
+                        this.age = age;
+                        return this;
+                    }
+                }
+
+                let Hoang = new Person();
+                Hoang.setAge(23).setName('Hoang');
+                console.log(Hoang)
+
+
+            })
+        </script>
+    </head>
+
+    <body>
+        <div id="result"></div>
+    </body>
+
+</html>
