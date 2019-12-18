@@ -94,12 +94,40 @@
             /* 9. return trong hàm callback
                 - Các lệnh trước return hoạt động bình thường
                 - Sự kiện vẫn diễn ra bình thường: chuyển trang, submit form 
-                - Muốn dừng sự kiện phải dùng event.preventDefault() */
+                - Muốn dừng sự kiện phải dùng event.preventDefault() 
+
+                Tuy nhiên return false:
+                - jquery: = event.preventDefault() + event.stopPropagation()
+                */
             document.addEventListener("DOMContentLoaded", function(event) {
                 document.getElementsByTagName('a')[0].addEventListener('click', function (event) {
                     console.log('click go to Google')
                     event.preventDefault()
                     return;
+                })
+
+
+                document.getElementById('test-return').addEventListener('click', function (event) {
+                    return false;
+                })
+
+                $('#test-return').on('click', function (event) {
+                    return false;
+                })
+                
+            });
+
+            /* 10. Hàm gỡ sự kiện được gắn trên element
+                - jquery: */
+            $(document).ready( function () {
+                $('button').off('click', function (event) { console.log('jquery off function') });
+            });
+            
+            /*  -  javascript*/
+            document.addEventListener("DOMContentLoaded", function(event) {
+                document.getElementsByTagName('a')[0].removeEventListener('click', function (event) {
+                    console.log('javascript removeEventListener')
+                    removeEventListener
                 })
             });
         </script>
@@ -109,5 +137,6 @@
             <button id="button">Click me</button>
         </div>
         <a href="https://google.com.vn">Google</a>
+        <a id="test-return" href="https://google.com.vn">Google</a>
     </body>
 </html>

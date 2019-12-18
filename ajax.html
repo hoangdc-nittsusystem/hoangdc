@@ -1,0 +1,70 @@
+
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+        
+        <script>
+            $(document).ready(function () {
+                /* AJAX - asynchronous javascript and xml: kĩ thuật gửi nhận dữ liệu lên webapi mà không cần load lại trang, có thể sử dụng dữ liệu nhận được để thay đổi nội dung trang
+                + sử dụng XMLHttpRequest 
+                + sử dụng javascript và HTML DOM 
+                
+                Một số hàm sử dụng ajax:
+                1. jquery
+                - $.ajax, $.get, $.post */
+
+                $.ajax({
+                    url: 'http://localhost:3000',
+                    method: 'get',
+                    success: function (data) {
+                        console.log(data);
+                        $('#result').html(data);
+                    }
+                })
+
+                $.post('http://localhost:3000', $.param({
+                    test: 'test',
+                    id: '1111'
+                }),function (data) {
+                    console.log(data);
+                })
+                /*
+                2. axios */
+                axios.get('http://localhost:3000').then( function (data) {
+                    console.log(data);
+                }).catch(err => {
+                    console.log(err)
+                })
+                /*
+                3. XMLHttpRequest */
+                let xmlRequest = new XMLHttpRequest();
+                xmlRequest.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == '200') {
+                        console.log(this.responseText)
+                    }
+                }
+                xmlRequest.open('get', 'http://localhost:3000');
+                xmlRequest.send();
+
+                /*
+                4. fetch */
+                fetch('http://localhost:3000', {
+                    method: "POST",
+                    // mode: 'no-cors',
+                    // headers: {
+                    //     'Content-Type': 'application/json'
+                    //     // 'Content-Type': 'application/x-www-form-urlencoded',
+                    // },
+                    body: JSON.stringify({
+                        test: 'test'
+                    })
+                }).then(data => data.json()).then( data => console.log(data)).catch(err => console.log(err))
+            })
+
+        </script>
+    </head>
+    <body>
+        <div id="result"></div>
+    </body>
+</html>
