@@ -126,16 +126,17 @@
                         resolve('123');
                     }, Math.random() * 100);
                 });
-                return result;  
-                // tương đương
-                new Promise((resolve, reject) => {
-                    setTimeout(() => {
-                        resolve('123');
-                    }, Math.random() * 100);
-                }).then( () => {
-                    return '123';   //result
-                }).then( data => console.log(data))  
+                return result;
             }
+            // Hàm async trả về một Promise, Promise này khi resolve sẽ trả về giá trị trong biểu thức return của hàm async, nếu ko có return thì mặc định là return undefined
+            // tương đương
+            new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve('123');
+                }, Math.random() * 100);
+            }).then( () => {
+                return '123';   //result
+            })
 
             // We catch the error upon calling the function.
             doSomethingAsync()

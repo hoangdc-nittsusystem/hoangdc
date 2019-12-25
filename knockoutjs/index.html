@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <link type="text/css" rel="stylesheet" href="assets/css/app.css" />
+        <script src="node_modules/knockout/build/output/knockout-latest.debug.js"></script>
+    </head>
+    <body>
+        <input type="text" data-bind="value: input" />
+        <button data-bind="click: enterNewBook">Add</button>
+
+        <h2>List Book</h2>
+        <ul data-bind="foreach: bookArray">
+            <li data-bind="text: $data"></li>
+        </ul>
+        
+        <script src="assets/js/app.js"></script>
+    </body>
+</html>
