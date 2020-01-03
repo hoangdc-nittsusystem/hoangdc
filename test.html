@@ -1,0 +1,125 @@
+<html>
+
+    <head>
+        <style>
+            div {
+                height: 100px;
+                width: 100px;
+                background: black;
+            }
+
+            #div1 ~ div {
+                background: red;
+            }
+
+            #div1 {
+                height: 300px;
+                width: 300px;
+            }
+
+            #child1 {
+                height: 200px;
+                width: 200px;
+            }
+
+            .flex-div {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            #div1 > #child2 {
+                background: blue;
+            }
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+        <script>
+            const b = {key: 'b'}
+            const c = {key: 'c'}
+            a = []
+            a[b] = 123;
+            console.log(a)
+            console.log(a[b])
+
+            function Person (name, age) {
+                this.name = name;
+                this.age = age;
+            }
+
+            let person = new Person ('Hoang', 23)
+            Person.prototype.getName = function () {
+                
+            }
+
+            person.getName();
+
+            function test() {
+                console.log(age)
+                // console.log(name)
+                var age = 23;
+                let name = "Hoang"
+            }
+
+            test();
+
+            const promise = (a) => {
+                return new Promise (resolve => {
+                    setTimeout( () => {
+                        resolve(a)
+                    }, Math.random() * 1000)
+                })
+            
+            }
+
+            Promise.all([promise('first'), promise('second')]).then(data => {
+                console.log(data)
+            })
+
+            let a1 = 0.1;
+            let b1 = 0.2;
+            let c1 = 0.3;
+            let d = a1 + b1 
+            console.log( d)
+            
+
+            const foo = function foo(){
+                console.log(foo === foo)
+            }
+
+            foo();
+
+            let array = [1, 1, 2, 3, 4, 6, 8, 10, 14, 17, 19, 23];
+
+            function binarySearch (array, left, right, value) {
+                if (left == right) {
+                    if ( array[left] == value) return left;
+                    else return -1;
+                } 
+                if (left < right) {
+                    let flag = Math.floor((left + right) / 2)
+                    if (value <= array[flag]) 
+                        return binarySearch(array, left, flag, value)
+                    else 
+                        return binarySearch(array, flag + 1, right, value);
+                } 
+                return -1;
+            }
+
+            console.log(binarySearch(array, 0, array.length, 13))
+
+        </script>
+    </head>
+
+    <body>
+        <div id="div1" class="flex-div">
+            <div id="child1" class="flex-div">
+                <div id="child2"></div>
+            </div>
+        </div>
+        <div id="div2"></div>
+        <div id="div3"></div>
+        <div id="div4"></div>
+    </body>
+
+</html>

@@ -1,0 +1,60 @@
+<html>
+
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script>
+
+            console.log(this)
+
+            function function1() {
+                console.log(this)
+            }
+
+            let function2 = () => {
+                console.log(this)
+            }
+
+            class Person {
+                age = 3;
+
+                function3 = () => {
+                    console.log(this.age)
+                    // function1();
+                    // function2();
+                    // this.function4();
+                }
+
+                function4 = function () {
+                    console.log(this.age)
+                    // this.function3();
+                }
+            }
+
+            function1();
+            function2();
+            new Person().function3();
+            new Person().function4();
+            /////
+
+            function Person(name) {
+                this.name = name;
+                this.sayName = function() {
+                    console.log(this.name)
+                }
+            }
+
+            var p = new Person("Bob");
+            this.name = "Alice";
+
+            p.sayName(); // Bob
+            var func = p.sayName;
+            func(); // Alice
+
+        </script>
+    </head>
+
+    <body>
+        <div id="result"></div>
+    </body>
+
+</html>

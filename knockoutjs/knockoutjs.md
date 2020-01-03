@@ -1,0 +1,4 @@
+* Các observable là các `function`, muốn trả về đối tượng đang đc binding thì dùng `observable()`
+* observableArray cũng cấp các function mạnh mẽ và tốt hơn các function của bản thân array đang đc binding -> nên sử dụng function của observableArray
+* binding context: mỗi một `data-bind` đều có một context riêng. Khi cần gọi đến các `observable` của context khác cần chỉ rõ context như : `$root`, `parent`, `parents`, `element`
+* `.bind()` để chỉ ra cái gì là `this` trong function callback. Nếu gọi trực tiếp bằng tên thì các `function binding` trong knockoutjs cần chỉ rõ biến `this` này. Nếu khai báo một function callback tại view thì không cần biến this

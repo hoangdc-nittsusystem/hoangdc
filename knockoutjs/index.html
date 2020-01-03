@@ -3,14 +3,39 @@
         <link type="text/css" rel="stylesheet" href="assets/css/app.css" />
         <script src="node_modules/knockout/build/output/knockout-latest.debug.js"></script>
     </head>
-    <body>
-        <input type="text" data-bind="value: input" />
+    <body style="text-align: center;">
+        <input type="text" data-bind="value: title" />
+        <input type="text" data-bind="value: description" />
+
         <button data-bind="click: enterNewBook">Add</button>
 
         <h2>List Book</h2>
-        <ul data-bind="foreach: bookArray">
-            <li data-bind="text: $data"></li>
-        </ul>
+        
+        <table>
+            <thead>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Updated date</th>
+                <th>Actions</th>
+            </thead>
+            <tbody data-bind="foreach: bookArray">
+                <tr>
+                    <td data-bind="text: $data.id"></td>
+                    <td data-bind="text: $data.title"></td>
+                    <td data-bind="text: $data.description"></td>
+                    <td data-bind="text: $data.updatedDate"></td>
+                    <td>
+                        <span data-bind="if: !$data.isUpdating"><button data-bind="click: $root.updateBook.bind($root)">Update</button></span>
+                        <span data-bind="if: $data.isUpdating"><button data-bind="click: $root.saveUpdateBook.bind($root)">Save</button></span>
+                        <span><button data-bind="click: $root.deleteBook.bind($root, 'test')">Delete</button></span>
+                        <!-- <button data-bind="click: function(data, event) { $root.deleteBook(data, event, 'test') }">Delete</button> -->
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div data-bind="text: testOb().text"></div>
         
         <script src="assets/js/app.js"></script>
     </body>
