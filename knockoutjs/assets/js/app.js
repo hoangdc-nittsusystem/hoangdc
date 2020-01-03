@@ -1,36 +1,39 @@
-console.log(ko)
+console.log(moment())
 class Person {
-    baseBookArray = [
+    baseBookArray = this.convertToObservable([
         {
             id: 1,
             title: "Math",
             description: "Book about learning math",
-            updatedDate: Date.now(),
+            updatedDate: moment().format('DD/MM/YYYY HH:mm:ss'),
             isUpdating: false
         },
         {
             id: 2,
             title: "Physic",
             description: "Book about learning physic",
-            updatedDate: Date.now(),
+            updatedDate: moment().format('DD/MM/YYYY HH:mm:ss'),
             isUpdating: false
         },
         {
             id: 3,
             title: "Chemistry",
             description: "Book about learning chemistry",
-            updatedDate: Date.now(),
+            updatedDate: moment().format('DD/MM/YYYY HH:mm:ss'),
             isUpdating: false
         },
-    ]
+    ]);
 
     convertToObservable(list) {
         let newList = [];
         list.forEach( function (obj) {
             var newObj = {};
             Object.keys(obj).forEach(function (key) {
-                newObj[key] = ko.observable(obj[key]);
+                if (key != 'id') {
+                    newObj[key] = ko.observable(obj[key]);
+                }
             });
+            newObj['id'] = obj['id'];
             newList.push(newObj);
         });
         return newList;
@@ -41,6 +44,9 @@ class Person {
     title = ko.observable("");
     description = ko.observable("");
 
+    titleInput = ko.observable("");
+    descriptionInput = ko.observable("");
+
     testOb = ko.observable({
         text: "tada"
     })
@@ -48,10 +54,11 @@ class Person {
     enterNewBook() {
         console.log(this.bookArray)
         this.bookArray.push({
-            id: this.bookArray()[this.bookArray().length - 1].id + 1,
-            title: this.title(),
-            description: this.description(),
-            updatedDate: Date.now()
+            id: this.baseBookArray.length > 0 ? this.baseBookArray[this.baseBookArray.length - 1].id + 1 : 1,
+            title: ko.observable(this.title()),
+            description: ko.observable(this.description()),
+            updatedDate: ko.observable(moment().format('DD/MM/YYYY HH:mm:ss')),
+            isUpdating: ko.observable(false)
         });
 
         this.title("");
@@ -61,21 +68,31 @@ class Person {
     }
 
     updateBook(item) {
-        console.log(item)
-        item.isUpdating = true;
-        this.baseBookArray[this.bookArray.indexOf(item)].isUpdating = true;
-        console.log(this.baseBookArray)
-        // this.bookArray.replace()
+        // console.log(item);
+        this.baseBookArray.forEach( (el) => {
+            if( el.id != item.id) {
+                el.isUpdating(false);
+            }
+        })
+        item.isUpdating(true);
+        this.titleInput(item.title());
+        this.descriptionInput(item.description());
     }
 
-    saveUpdateBook() {
-
+    saveUpdateBook(item) {
+        this.baseBookArray.forEach( (book) => {
+            if(book.id == item.id) {
+                book.title(this.titleInput());
+                book.description(this.descriptionInput());
+                book.updatedDate(moment().format('DD/MM/YYYY HH:mm:ss'));
+            }
+        });
+        console.log(item)
+        item.isUpdating(false);
     }
 
     deleteBook(data, item, event) {
-        console.log(item);
-        this.bookArray.remove(item)
-        console.log(this.baseBookArray)
+        this.bookArray.remove(item);
     }
 }
 
