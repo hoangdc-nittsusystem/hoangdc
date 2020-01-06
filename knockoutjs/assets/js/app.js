@@ -1,5 +1,6 @@
-console.log(moment())
-class Person {
+// import {sortBy} from '/node_modules/lodash';
+
+class KOApp {
     baseBookArray = this.convertToObservable([
         {
             id: 1,
@@ -26,7 +27,7 @@ class Person {
 
     convertToObservable(list) {
         let newList = [];
-        list.forEach( function (obj) {
+        list.forEach(function (obj) {
             var newObj = {};
             Object.keys(obj).forEach(function (key) {
                 if (key != 'id') {
@@ -69,8 +70,8 @@ class Person {
 
     updateBook(item) {
         // console.log(item);
-        this.baseBookArray.forEach( (el) => {
-            if( el.id != item.id) {
+        this.baseBookArray.forEach((el) => {
+            if (el.id != item.id) {
                 el.isUpdating(false);
             }
         })
@@ -80,8 +81,8 @@ class Person {
     }
 
     saveUpdateBook(item) {
-        this.baseBookArray.forEach( (book) => {
-            if(book.id == item.id) {
+        this.baseBookArray.forEach((book) => {
+            if (book.id == item.id) {
                 book.title(this.titleInput());
                 book.description(this.descriptionInput());
                 book.updatedDate(moment().format('DD/MM/YYYY HH:mm:ss'));
@@ -96,4 +97,30 @@ class Person {
     }
 }
 
-ko.applyBindings(new Person());
+class Book {
+    id = '';
+    tilte = observable('');
+    description = observable('');
+    updatedDate = observable(new Date());
+
+    constructor(book) {
+        if (!book.id) {
+            this.id = book.id;
+        }
+        this.update(book);
+    }
+
+    update(book) {
+        if (!book.title) {
+            this.title(book.title);
+        }
+
+        if (!book.description) {
+            this.title(book.description);
+        }
+
+        this.updatedDate(new Date());
+    }
+}
+
+ko.applyBindings(new KOApp());
